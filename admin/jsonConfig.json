@@ -1,0 +1,149 @@
+{
+  "i18n": true,
+  "type": "tabs",
+  "items": {
+    "connection": {
+      "type": "panel",
+      "label": "OpenAI",
+      "items": {
+        "apiKey": {
+          "type": "password",
+          "label": "OpenAI API key",
+          "sm": 12,
+          "md": 8
+        },
+        "apiBaseUrl": {
+          "type": "text",
+          "label": "API base URL",
+          "sm": 12,
+          "md": 8,
+          "default": "https://api.openai.com/v1"
+        },
+        "requestTimeoutMs": {
+          "type": "number",
+          "label": "Request timeout (ms)",
+          "min": 1000,
+          "max": 300000,
+          "default": 60000,
+          "sm": 6,
+          "md": 4
+        },
+        "maxImageBytes": {
+          "type": "number",
+          "label": "Maximum image size (bytes)",
+          "min": 1024,
+          "default": 10485760,
+          "sm": 6,
+          "md": 4
+        },
+        "localImageDirectory": {
+          "type": "text",
+          "label": "Allowed local image directory",
+          "sm": 12,
+          "md": 8
+        }
+      }
+    },
+    "models": {
+      "type": "panel",
+      "label": "Models",
+      "items": {
+        "models": {
+          "type": "table",
+          "label": "Models",
+          "items": [
+            {
+              "attr": "active",
+              "type": "checkbox",
+              "title": "Active",
+              "width": "15%",
+              "default": true
+            },
+            {
+              "attr": "name",
+              "type": "text",
+              "title": "Model ID",
+              "width": "85%",
+              "default": "gpt-5.6-terra"
+            }
+          ]
+        }
+      }
+    },
+    "tools": {
+      "type": "panel",
+      "label": "Tools",
+      "items": {
+        "tools": {
+          "type": "table",
+          "label": "AI tools",
+          "items": [
+            { "attr": "name", "type": "text", "title": "Name", "width": "15%" },
+            {
+              "attr": "model",
+              "type": "text",
+              "title": "Model ID",
+              "width": "15%",
+              "default": "gpt-5.6-terra"
+            },
+            {
+              "attr": "instructions",
+              "type": "text",
+              "title": "Instructions",
+              "width": "25%"
+            },
+            {
+              "attr": "temperature",
+              "type": "number",
+              "title": "Temperature (optional)",
+              "min": 0,
+              "max": 2,
+              "step": 0.1,
+              "width": "8%"
+            },
+            {
+              "attr": "maxOutputTokens",
+              "type": "number",
+              "title": "Max output tokens",
+              "min": 1,
+              "default": 2000,
+              "width": "9%"
+            },
+            {
+              "attr": "historyLength",
+              "type": "number",
+              "title": "History pairs",
+              "min": 0,
+              "default": 0,
+              "width": "8%"
+            },
+            {
+              "attr": "vision",
+              "type": "checkbox",
+              "title": "Vision",
+              "default": false,
+              "width": "6%"
+            },
+            {
+              "attr": "maxRetries",
+              "type": "number",
+              "title": "Retries",
+              "min": 0,
+              "max": 10,
+              "default": 2,
+              "width": "6%"
+            },
+            {
+              "attr": "retryDelaySeconds",
+              "type": "number",
+              "title": "Retry delay",
+              "min": 0,
+              "default": 5,
+              "width": "8%"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

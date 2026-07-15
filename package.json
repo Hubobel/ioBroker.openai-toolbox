@@ -1,0 +1,41 @@
+{
+  "name": "iobroker.openai-toolbox",
+  "version": "0.1.0",
+  "description": "Create reusable OpenAI-powered tools in ioBroker",
+  "author": "Hubobel",
+  "license": "MIT",
+  "main": "main.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hubobel/ioBroker.openai-toolbox.git"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.3.2",
+    "mime-types": "^3.0.1"
+  },
+  "devDependencies": {
+    "@iobroker/testing": "^5.1.1",
+    "eslint": "^9.0.0",
+    "mocha": "^11.0.0",
+    "prettier": "^3.5.0"
+  },
+  "scripts": {
+    "test": "npm run test:unit && npm run test:package",
+    "test:unit": "mocha \"test/**/*.test.js\"",
+    "test:package": "mocha test/package.js --exit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "files": [
+    "admin/",
+    "lib/",
+    "io-package.json",
+    "LICENSE",
+    "main.js",
+    "README.md"
+  ]
+}

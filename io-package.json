@@ -1,0 +1,79 @@
+{
+  "common": {
+    "name": "openai-toolbox",
+    "version": "0.1.0",
+    "titleLang": {
+      "en": "OpenAI Toolbox",
+      "de": "OpenAI-Werkzeugkasten"
+    },
+    "desc": {
+      "en": "Create reusable OpenAI-powered tools for ioBroker automations.",
+      "de": "Erstellt wiederverwendbare OpenAI-Werkzeuge für ioBroker-Automationen."
+    },
+    "authors": ["Hubobel"],
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "type": "logic",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "push",
+    "messagebox": true,
+    "supportedMessages": {
+      "custom": true
+    },
+    "enabled": true,
+    "loglevel": "info",
+    "tier": 3,
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=7.0.0"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.0.0"
+      }
+    ],
+    "news": {
+      "0.1.0": {
+        "en": "Initial development release",
+        "de": "Erste Entwicklungsversion",
+        "ru": "Первоначальная версия для разработки",
+        "pt": "Versão inicial de desenvolvimento",
+        "nl": "Eerste ontwikkelingsversie",
+        "fr": "Version initiale de développement",
+        "it": "Versione iniziale di sviluppo",
+        "es": "Versión inicial de desarrollo",
+        "pl": "Pierwsza wersja rozwojowa",
+        "uk": "Початкова версія для розробки",
+        "zh-cn": "初始开发版本"
+      }
+    },
+    "icon": "openai-toolbox.svg",
+    "extIcon": "https://raw.githubusercontent.com/Hubobel/ioBroker.openai-toolbox/main/admin/openai-toolbox.svg"
+  },
+  "native": {
+    "apiKey": "",
+    "apiBaseUrl": "https://api.openai.com/v1",
+    "requestTimeoutMs": 60000,
+    "maxImageBytes": 10485760,
+    "models": [
+      {
+        "name": "gpt-5.6-terra",
+        "active": true
+      }
+    ],
+    "tools": []
+  },
+  "protectedNative": ["apiKey"],
+  "encryptedNative": ["apiKey"],
+  "objects": [],
+  "instanceObjects": []
+}
