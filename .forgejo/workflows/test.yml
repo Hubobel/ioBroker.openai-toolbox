@@ -1,0 +1,43 @@
+name: Forgejo Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node.js ${{ matrix.node }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - 20.x
+          - 22.x
+          - 24.x
+
+    steps:
+      - name: Repository auschecken
+        uses: https://data.forgejo.org/actions/checkout@v6
+
+      - name: Node.js einrichten
+        uses: https://data.forgejo.org/actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Lint prüfen
+        run: npm run lint
+
+      - name: Tests ausführen
+        run: npm test
+
+      - name: Formatierung prüfen
+        run: npm run format:check
