@@ -24,7 +24,11 @@ class OpenAIToolbox extends utils.Adapter {
     this.subscribeStates("Models.*.text_request");
     this.subscribeStates("Tools.*.text_request");
     this.subscribeStates("Tools.*.statistics.clear_history");
-    await this.setStateAsync("info.connection", false, true);
+    await this.setStateAsync(
+      "info.connection",
+      Boolean(this.config.apiKey),
+      true,
+    );
     this.log.info(
       `OpenAI Toolbox ready with ${this.availableModels().length} model(s) and ${(this.config.tools || []).length} tool(s)`,
     );
@@ -286,6 +290,7 @@ class OpenAIToolbox extends utils.Adapter {
         model: tool.model,
         messages,
         instructions: tool.instructions || undefined,
+        reasoningEffort: tool.reasoningEffort || undefined,
         maxOutputTokens: Number(tool.maxOutputTokens) || 2000,
         temperature:
           tool.temperature === undefined ||
@@ -411,6 +416,7 @@ class OpenAIToolbox extends utils.Adapter {
           model: msg.model,
           messages: msg.messages || [{ role: "user", content: msg.text }],
           instructions: msg.instructions,
+          reasoningEffort: msg.reasoningEffort,
           maxOutputTokens: msg.maxOutputTokens,
           temperature: msg.temperature,
         }),

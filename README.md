@@ -76,6 +76,7 @@ sendTo(
   {
     model: "gpt-5.6-terra",
     instructions: "Answer briefly in German.",
+    reasoningEffort: "minimal",
     text: "Explain photovoltaic self-consumption.",
     maxOutputTokens: 500,
   },
@@ -84,6 +85,7 @@ sendTo(
 ```
 
 All requests return a stable object containing `success`, `text`, and either `usage`, `model`, `requestId` or `error`.
+Reasoning effort can be configured separately for each tool. Leave it at `Default` to let OpenAI choose the effort. For simple tasks with `gpt-5-nano`, `minimal` reduces latency and reasoning-token usage. Only select an effort supported by the configured model.
 
 ## Security
 
