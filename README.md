@@ -103,7 +103,31 @@ npm ci
 npm run lint
 npm test
 ```
+## Installation über Forgejo
 
+Der Adapter kann direkt über die ioBroker-Administrationsoberfläche aus dem öffentlichen Forgejo-Repository installiert werden.
+
+1. In ioBroker den Bereich **Adapter** öffnen.
+2. Auf **Adapter aus eigener URL installieren** klicken.
+3. Den Reiter **Beliebig** beziehungsweise **Eigene URL** auswählen.
+4. Folgende vollständige Zeile in das Eingabefeld einfügen:
+
+   ```text
+   https://git.hintergasse.de/hubobel/ioBroker.openai-toolbox/archive/main.tar.gz openai-toolbox
+   ```
+
+5. Auf **Installieren** klicken.
+6. Nach Abschluss die Adapterseite neu laden.
+7. Beim Adapter **OpenAI Toolbox** über die Plus-Schaltfläche eine Instanz anlegen.
+8. Den OpenAI-API-Schlüssel eintragen und mindestens ein Modell konfigurieren.
+
+### Warum steht der Adaptername hinter der URL?
+
+Forgejo stellt den Quellcode als Archiv mit dem Dateinamen `main.tar.gz` bereit. Daraus kann ioBroker den Adapternamen nicht automatisch erkennen. Deshalb muss hinter der URL – getrennt durch ein Leerzeichen – der Name `openai-toolbox` angegeben werden.
+
+### Aktualisierung
+
+Für eine Aktualisierung wird derselbe Installationsvorgang erneut ausgeführt. Vorhandene Instanzkonfigurationen bleiben dabei erhalten.
 ## License
 
 MIT
