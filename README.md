@@ -103,6 +103,7 @@ npm ci
 npm run lint
 npm test
 ```
+
 ## Installation über Forgejo
 
 Der Adapter kann direkt über die ioBroker-Administrationsoberfläche aus dem öffentlichen Forgejo-Repository installiert werden.
@@ -128,6 +129,112 @@ Forgejo stellt den Quellcode als Archiv mit dem Dateinamen `main.tar.gz` bereit.
 ### Aktualisierung
 
 Für eine Aktualisierung wird derselbe Installationsvorgang erneut ausgeführt. Vorhandene Instanzkonfigurationen bleiben dabei erhalten.
+
+## Ersteinrichtung mit `gpt-5-nano`
+
+### 1. OpenAI-API-Schlüssel vorbereiten
+
+Ein API-Schlüssel kann in der [OpenAI-Plattform](https://platform.openai.com/api-keys) erstellt und verwaltet werden.
+
+> **Sicherheit:** Den API-Schlüssel niemals in die README, in Quellcode, Screenshots oder öffentliche Protokolle kopieren. Bei Verdacht auf eine Veröffentlichung muss der Schlüssel sofort ersetzt werden.
+
+### 2. Adapterinstanz anlegen
+
+1. In ioBroker den Bereich **Adapter** öffnen.
+2. Beim Adapter **OpenAI Toolbox** auf die Plus-Schaltfläche klicken.
+3. Die neu angelegte Instanz `openai-toolbox.0` öffnen.
+
+### 3. OpenAI-Verbindung konfigurieren
+
+Im Reiter **OpenAI** folgende Werte eintragen:
+
+| Einstellung                   | Wert                              |
+| ----------------------------- | --------------------------------- |
+| OpenAI API key                | Persönlicher OpenAI-API-Schlüssel |
+| API base URL                  | `https://api.openai.com/v1`       |
+| Request timeout (ms)          | `60000`                           |
+| Maximum image size (bytes)    | `10485760`                        |
+| Allowed local image directory | Für den ersten Test leer lassen   |
+
+### 4. Modell `gpt-5-nano` anlegen
+
+Im Reiter **Models** eine neue Zeile hinzufügen:
+
+| Einstellung | Wert         |
+| ----------- | ------------ |
+| Active      | aktiviert    |
+| Model ID    | `gpt-5-nano` |
+
+### 5. Testwerkzeug anlegen
+
+Im Reiter **Tools** eine neue Zeile mit folgenden Werten hinzufügen:
+
+| Einstellung       | Wert                                       |
+| ----------------- | ------------------------------------------ |
+| Name              | `nano-test`                                |
+| Model ID          | `gpt-5-nano`                               |
+| Instructions      | `Antworte kurz, sachlich und auf Deutsch.` |
+| Reasoning effort  | `Minimal`                                  |
+| Temperature       | leer lassen                                |
+| Max output tokens | `300`                                      |
+| History pairs     | `0`                                        |
+| Vision            | deaktiviert                                |
+| Retries           | `2`                                        |
+| Retry delay       | `5`                                        |
+
+`Temperature` sollte bei `gpt-5-nano` leer bleiben, da dieser Parameter abhängig vom Modell nicht unterstützt werden kann.
+
+### 6. Konfiguration speichern
+
+1. Die Einstellungen speichern.
+2. Falls erforderlich, die Adapterinstanz neu starten.
+3. Die Instanz sollte anschließend grün werden.
+
+Im ioBroker-Protokoll sollte eine ähnliche Meldung erscheinen:
+
+```text
+OpenAI Toolbox ready with 1 model(s) and 1 tool(s)
+```
+
+### 7. Erste Anfrage testen
+
+1. In ioBroker den Bereich **Objekte** öffnen.
+2. Zu folgendem Datenpunkt navigieren:
+
+   ```text
+   openai-toolbox.0.Tools.nano-test.text_request
+   ```
+
+3. Als Wert beispielsweise eingeben:
+
+   ```text
+   Erkläre ioBroker in genau einem kurzen deutschen Satz.
+   ```
+
+4. Die Antwort erscheint unter:
+
+   ```text
+   openai-toolbox.0.Tools.nano-test.text_response
+   ```
+
+5. Der Status der Anfrage steht unter:
+
+   ```text
+   openai-toolbox.0.Tools.nano-test.request.state
+   ```
+
+Bei erfolgreicher Verarbeitung enthält dieser Datenpunkt den Wert:
+
+```text
+success
+```
+
+Mögliche Fehlermeldungen können unter folgendem Datenpunkt eingesehen werden:
+
+```text
+openai-toolbox.0.Tools.nano-test.response.error
+```
+
 ## License
 
 MIT
