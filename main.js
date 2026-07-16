@@ -32,6 +32,14 @@ class OpenAIToolbox extends utils.Adapter {
     this.log.info(
       `OpenAI Toolbox ready with ${this.availableModels().length} model(s) and ${(this.config.tools || []).length} tool(s)`,
     );
+    this.log.debug(
+      `Active models: ${this.availableModels().join(", ") || "none"}`,
+    );
+    this.log.debug(
+      `Configured tools: ${
+        (this.config.tools || []).map((tool) => tool.name).join(", ") || "none"
+      }`,
+    );
   }
 
   availableModels() {
@@ -229,12 +237,19 @@ class OpenAIToolbox extends utils.Adapter {
       return;
     const relative = id.slice(this.namespace.length + 1);
     if (relative.startsWith("Models.")) {
+      const key = relative.split(".")[1];
       const object = await this.getObjectAsync(relative);
-      void this.runQueued(relative.split(".")[1], () =>
-        this.runRequest(`Models.${relative.split(".")[1]}`, {
-          model: object?.native?.model,
-          messages: [{ role: "user", content: state.val }],
-        }),
+
+      void this.runQueued(key, () =>
+        this.runWithRetry(
+          `Models.${key}`,
+          {
+            model: object?.native?.model,
+            messages: [{ role: "user", content: state.val }],
+          },
+          0,
+          0,
+        ),
       );
     } else if (relative.startsWith("Tools.")) {
       const key = relative.split(".")[1];
@@ -274,6 +289,7 @@ class OpenAIToolbox extends utils.Adapter {
         );
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
+        this.log.warn(`${base}: image could not be loaded: ${message}`);
 
         await this.setStateAsync(`${base}.response.error`, message, true);
         await this.setStateAsync(`${base}.request.state`, "error", true);
@@ -323,20 +339,42 @@ class OpenAIToolbox extends utils.Adapter {
 
   async runWithRetry(base, request, retries, delaySeconds) {
     let last;
+
     for (let attempt = 0; attempt <= retries; attempt++) {
+      this.log.debug(
+        `${base}: request attempt ${attempt + 1} of ${retries + 1}`,
+      );
+
       last = await this.runRequest(base, request);
-      if (last.success) return last;
-      if (attempt < retries)
+
+      if (last.success) {
+        return last;
+      }
+
+      if (attempt < retries) {
+        this.log.warn(
+          `${base}: attempt ${attempt + 1} failed: ${last.error}; ` +
+            `retrying in ${delaySeconds} second(s)`,
+        );
+
         await new Promise((resolve) =>
           this.setTimeout(resolve, delaySeconds * 1000),
         );
+      }
     }
+
+    this.log.error(
+      `${base}: request failed after ${retries + 1} attempt(s): ` +
+        `${last?.error || "Unknown error"}`,
+    );
+
     return last;
   }
 
   async runRequest(base, request) {
     try {
       if (!request.model) throw new Error("No model configured");
+      this.log.debug(`${base}: sending request to model ${request.model}`);
       await this.setStateAsync(`${base}.request.state`, "running", true);
       await this.setStateAsync(`${base}.response.error`, "", true);
       const result = await this.client.createResponse(request);
@@ -354,13 +392,17 @@ class OpenAIToolbox extends utils.Adapter {
       await this.setStateAsync(`${base}.text_response`, result.text, true);
       await this.setStateAsync(`${base}.request.state`, "success", true);
       await this.updateStatistics(base, result.usage);
+      this.log.info(
+        `${base}: request completed with ${result.model} ` +
+          `(${result.usage.totalTokens} total tokens)`,
+      );
       return { ...result, raw: undefined, request: undefined };
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       await this.setStateAsync("info.connection", false, true);
       await this.setStateAsync(`${base}.response.error`, message, true);
       await this.setStateAsync(`${base}.request.state`, "error", true);
-      this.log.warn(`${base}: ${message}`);
+
       return { success: false, text: "", error: message };
     }
   }
@@ -412,19 +454,30 @@ class OpenAIToolbox extends utils.Adapter {
 
   async onMessage(obj) {
     if (!obj || typeof obj !== "object" || !obj.message) return;
+    this.log.debug(
+      `Received sendTo command "${obj.command}" from ${obj.from || "unknown"}`,
+    );
     let result;
-    if (obj.command === "getAvailableModels") result = this.availableModels();
-    else if (obj.command === "modelRequest") {
+
+    if (obj.command === "getAvailableModels") {
+      result = this.availableModels();
+    } else if (obj.command === "modelRequest") {
       const msg = obj.message;
+
       result = await this.runQueued(`message-model-${msg.model}`, () =>
-        this.runRequest(`Models.${this.modelId(msg.model)}`, {
-          model: msg.model,
-          messages: msg.messages || [{ role: "user", content: msg.text }],
-          instructions: msg.instructions,
-          reasoningEffort: msg.reasoningEffort,
-          maxOutputTokens: msg.maxOutputTokens,
-          temperature: msg.temperature,
-        }),
+        this.runWithRetry(
+          `Models.${this.modelId(msg.model)}`,
+          {
+            model: msg.model,
+            messages: msg.messages || [{ role: "user", content: msg.text }],
+            instructions: msg.instructions,
+            reasoningEffort: msg.reasoningEffort,
+            maxOutputTokens: msg.maxOutputTokens,
+            temperature: msg.temperature,
+          },
+          0,
+          0,
+        ),
       );
     } else if (obj.command === "toolRequest") {
       const tool = (this.config.tools || []).find(
@@ -432,16 +485,37 @@ class OpenAIToolbox extends utils.Adapter {
           t.name === obj.message.tool ||
           this.toolId(t.name) === obj.message.tool,
       );
-      result = tool
-        ? await this.runQueued(`message-tool-${this.toolId(tool.name)}`, () =>
-            this.runTool(tool, obj.message.text, obj.message.imageUrl),
-          )
-        : { success: false, error: "Tool not found", text: "" };
-    } else result = { success: false, error: "Unsupported command", text: "" };
+
+      if (!tool) {
+        this.log.warn(
+          `Tool request rejected: tool "${obj.message.tool}" was not found`,
+        );
+
+        result = {
+          success: false,
+          error: "Tool not found",
+          text: "",
+        };
+      } else {
+        result = await this.runQueued(
+          `message-tool-${this.toolId(tool.name)}`,
+          () => this.runTool(tool, obj.message.text, obj.message.imageUrl),
+        );
+      }
+    } else {
+      this.log.warn(`Unsupported sendTo command "${obj.command}"`);
+
+      result = {
+        success: false,
+        error: "Unsupported command",
+        text: "",
+      };
+    }
     if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
   }
 
   onUnload(callback) {
+    this.log.info("OpenAI Toolbox stopped");
     callback();
   }
 }
