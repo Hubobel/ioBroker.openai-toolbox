@@ -90,7 +90,7 @@ class OpenAIToolbox extends utils.Adapter {
         type: "string",
         role: "text",
         read: true,
-        write: false,
+        write: true,
         def: "",
       },
       image_url: {
@@ -111,21 +111,21 @@ class OpenAIToolbox extends utils.Adapter {
         type: "string",
         role: "json",
         read: true,
-        write: false,
+        write: true,
         def: "{}",
       },
       "response.raw": {
         type: "string",
         role: "json",
         read: true,
-        write: false,
+        write: true,
         def: "{}",
       },
       "response.error": {
         type: "string",
         role: "text",
         read: true,
-        write: false,
+        write: true,
         def: "",
       },
       "statistics.input_tokens": {
@@ -170,6 +170,11 @@ class OpenAIToolbox extends utils.Adapter {
         common: { name: suffix, ...common },
         native,
       });
+      if (common.write) {
+        await this.extendObjectAsync(`${base}.${suffix}`, {
+          common: { write: true },
+        });
+      }
     }
   }
 
