@@ -5,7 +5,7 @@ Create reusable OpenAI-powered tools for ioBroker automations. This adapter uses
 ## Requirements
 
 - ioBroker js-controller 7 or newer
-- Node.js 20 or newer
+- Node.js 22 or newer
 - An OpenAI API key
 
 API usage can incur costs. The adapter never logs or exposes the configured API key.

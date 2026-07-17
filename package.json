@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "main.js",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "repository": {
     "type": "git",
