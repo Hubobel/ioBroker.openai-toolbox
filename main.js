@@ -3,6 +3,7 @@
 const utils = require("@iobroker/adapter-core");
 const OpenAIClient = require("./lib/openai-client");
 const ImageLoader = require("./lib/image-loader");
+const buildToolMessages = require("./lib/tool-messages");
 
 class OpenAIToolbox extends utils.Adapter {
   constructor(options = {}) {
@@ -278,7 +279,7 @@ class OpenAIToolbox extends utils.Adapter {
       base,
       Number(tool.historyLength) || 0,
     );
-    const messages = [...history, { role: "user", content: text }];
+    const messages = buildToolMessages(tool, history, text);
     const stateImage = (await this.getStateAsync(`${base}.image_url`))?.val;
     const imageSource = suppliedImage || stateImage;
 

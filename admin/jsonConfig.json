@@ -93,6 +93,18 @@
               "width": "25%"
             },
             {
+              "attr": "exampleRequest",
+              "type": "text",
+              "title": "Example request",
+              "width": "20%"
+            },
+            {
+              "attr": "exampleResponse",
+              "type": "text",
+              "title": "Example response",
+              "width": "20%"
+            },
+            {
               "attr": "reasoningEffort",
               "type": "select",
               "title": "Reasoning effort",

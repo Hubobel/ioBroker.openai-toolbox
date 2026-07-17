@@ -184,6 +184,12 @@ Im Reiter **Tools** eine neue Zeile mit folgenden Werten hinzufügen:
 
 `Temperature` sollte bei `gpt-5-nano` leer bleiben, da dieser Parameter abhängig vom Modell nicht unterstützt werden kann.
 
+### Tool examples
+
+Each tool can define an optional `Example request` and matching `Example response`. When both fields are populated, the adapter sends them to OpenAI as a sample user/assistant exchange before the conversation history and the current request. This can be used to demonstrate the desired answer style or output format.
+
+An incomplete example pair is ignored. Example messages are not written to the tool's conversation history.
+
 ### 6. Konfiguration speichern
 
 1. Die Einstellungen speichern.
