@@ -1,6 +1,6 @@
 {
   "name": "iobroker.openai-toolbox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create reusable OpenAI-powered tools in ioBroker",
   "author": "Hubobel",
   "license": "MIT",
@@ -28,7 +28,10 @@
     "test:package": "mocha test/package.js --exit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "release:patch": "node scripts/release.js patch",
+    "release:minor": "node scripts/release.js minor",
+    "release:major": "node scripts/release.js major"
   },
   "files": [
     "admin/",

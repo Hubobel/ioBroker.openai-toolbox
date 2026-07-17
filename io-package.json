@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "openai-toolbox",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "titleLang": {
       "en": "OpenAI Toolbox",
       "de": "OpenAI-Werkzeugkasten"
@@ -42,6 +42,19 @@
       }
     ],
     "news": {
+      "0.1.1": {
+        "en": "Added example conversations for tools and automated versioning",
+        "de": "Added example conversations for tools and automated versioning",
+        "ru": "Added example conversations for tools and automated versioning",
+        "pt": "Added example conversations for tools and automated versioning",
+        "nl": "Added example conversations for tools and automated versioning",
+        "fr": "Added example conversations for tools and automated versioning",
+        "it": "Added example conversations for tools and automated versioning",
+        "es": "Added example conversations for tools and automated versioning",
+        "pl": "Added example conversations for tools and automated versioning",
+        "uk": "Added example conversations for tools and automated versioning",
+        "zh-cn": "Added example conversations for tools and automated versioning"
+      },
       "0.1.0": {
         "en": "Initial development release",
         "de": "Erste Entwicklungsversion",
