@@ -24,11 +24,12 @@
     "mime-types": "^3.0.2"
   },
   "devDependencies": {
+    "@alcalzone/release-script": "^5.2.1",
     "@iobroker/adapter-dev": "^1.5.0",
     "@iobroker/eslint-config": "^2.3.4",
     "@iobroker/testing": "^5.3.0",
-    "@tsconfig/node22": "^22.0.2",
-    "@types/node": ">=22"
+    "@tsconfig/node22": "^22.0.5",
+    "@types/node": "^22.0.0"
   },
   "scripts": {
     "test": "npm run test:unit && npm run test:package",
@@ -38,6 +39,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "release": "release-script",
     "release:patch": "node scripts/release.js patch",
     "release:minor": "node scripts/release.js minor",
     "release:major": "node scripts/release.js major"
