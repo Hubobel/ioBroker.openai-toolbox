@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "description": "Create reusable OpenAI-powered tools in ioBroker",
   "keywords": [
-    "iobroker",
+    "ioBroker",
     "openai",
     "artificial intelligence",
     "smart home",
@@ -28,14 +28,13 @@
     "@iobroker/eslint-config": "^2.3.4",
     "@iobroker/testing": "^5.3.0",
     "@tsconfig/node22": "^22.0.2",
-    "@types/node": ">=22",
-    "eslint": "^9.39.4",
-    "prettier": "^3.9.5"
+    "@types/node": ">=22"
   },
   "scripts": {
     "test": "npm run test:unit && npm run test:package",
     "test:unit": "mocha \"test/**/*.test.js\"",
     "test:package": "mocha test/package.js --exit",
+    "test:integration": "mocha test/integration.js --exit",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

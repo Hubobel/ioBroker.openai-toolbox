@@ -9,14 +9,20 @@
         "apiKey": {
           "type": "password",
           "label": "OpenAI API key",
+          "xs": 12,
           "sm": 12,
-          "md": 8
+          "md": 8,
+          "lg": 6,
+          "xl": 6
         },
         "apiBaseUrl": {
           "type": "text",
           "label": "API base URL",
+          "xs": 12,
           "sm": 12,
           "md": 8,
+          "lg": 6,
+          "xl": 6,
           "default": "https://api.openai.com/v1"
         },
         "requestTimeoutMs": {
@@ -25,22 +31,31 @@
           "min": 1000,
           "max": 300000,
           "default": 60000,
+          "xs": 12,
           "sm": 6,
-          "md": 4
+          "md": 4,
+          "lg": 3,
+          "xl": 3
         },
         "maxImageBytes": {
           "type": "number",
           "label": "Maximum image size (bytes)",
           "min": 1024,
           "default": 10485760,
+          "xs": 12,
           "sm": 6,
-          "md": 4
+          "md": 4,
+          "lg": 3,
+          "xl": 3
         },
         "localImageDirectory": {
           "type": "text",
           "label": "Allowed local image directory",
+          "xs": 12,
           "sm": 12,
-          "md": 8
+          "md": 8,
+          "lg": 6,
+          "xl": 6
         }
       }
     },
