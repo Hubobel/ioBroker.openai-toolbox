@@ -2,5 +2,7 @@ node_modules/
 coverage/
 *.log
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
 *.tgz
+.commitinfo

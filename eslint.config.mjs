@@ -1,12 +1,22 @@
+import config from "@iobroker/eslint-config";
+import globals from "globals";
+
 export default [
+  ...config,
+  {
+    ignores: ["node_modules/**"],
+  },
   {
     files: ["**/*.js"],
-    ignores: ["node_modules/**"],
-    languageOptions: { ecmaVersion: 2022, sourceType: "commonjs" },
     rules: {
-      "no-constant-condition": "error",
-      "no-dupe-keys": "error",
-      "no-unreachable": "error",
+      curly: "off",
+      "jsdoc/require-jsdoc": "off",
+    },
+  },
+  {
+    files: ["test/**/*.js"],
+    languageOptions: {
+      globals: globals.mocha,
     },
   },
 ];

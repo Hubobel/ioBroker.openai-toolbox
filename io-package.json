@@ -4,13 +4,38 @@
     "version": "0.1.1",
     "titleLang": {
       "en": "OpenAI Toolbox",
-      "de": "OpenAI-Werkzeugkasten"
+      "de": "OpenAI-Werkzeugkasten",
+      "ru": "Набор инструментов OpenAI",
+      "pt": "Caixa de ferramentas OpenAI",
+      "nl": "OpenAI-gereedschapskist",
+      "fr": "Boîte à outils OpenAI",
+      "it": "Strumenti OpenAI",
+      "es": "Caja de herramientas OpenAI",
+      "pl": "Zestaw narzędzi OpenAI",
+      "uk": "Набір інструментів OpenAI",
+      "zh-cn": "OpenAI 工具箱"
     },
     "desc": {
       "en": "Create reusable OpenAI-powered tools for ioBroker automations.",
-      "de": "Erstellt wiederverwendbare OpenAI-Werkzeuge für ioBroker-Automationen."
+      "de": "Erstellt wiederverwendbare OpenAI-Werkzeuge für ioBroker-Automationen.",
+      "ru": "Создавайте многоразовые инструменты на базе OpenAI для автоматизации ioBroker.",
+      "pt": "Crie ferramentas reutilizáveis com OpenAI para automações do ioBroker.",
+      "nl": "Maak herbruikbare OpenAI-tools voor ioBroker-automatiseringen.",
+      "fr": "Créez des outils OpenAI réutilisables pour les automatisations ioBroker.",
+      "it": "Crea strumenti OpenAI riutilizzabili per le automazioni ioBroker.",
+      "es": "Cree herramientas reutilizables con OpenAI para automatizaciones de ioBroker.",
+      "pl": "Twórz narzędzia OpenAI wielokrotnego użytku do automatyzacji ioBroker.",
+      "uk": "Створюйте багаторазові інструменти на базі OpenAI для автоматизації ioBroker.",
+      "zh-cn": "为 ioBroker 自动化创建可重复使用的 OpenAI 工具。"
     },
     "authors": ["Hubobel"],
+    "keywords": [
+      "iobroker",
+      "openai",
+      "artificial intelligence",
+      "smart home",
+      "automation"
+    ],
     "licenseInformation": {
       "type": "free",
       "license": "MIT"
@@ -38,7 +63,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.0.0"
+        "admin": ">=7.6.20"
       }
     ],
     "news": {

@@ -104,85 +104,85 @@ npm run lint
 npm test
 ```
 
-## Installation über Forgejo
+## Installation from Forgejo
 
-Der Adapter kann direkt über die ioBroker-Administrationsoberfläche aus dem öffentlichen Forgejo-Repository installiert werden.
+The adapter can be installed directly from the public Forgejo repository through the ioBroker administration interface.
 
-1. In ioBroker den Bereich **Adapter** öffnen.
-2. Auf **Adapter aus eigener URL installieren** klicken.
-3. Den Reiter **Beliebig** beziehungsweise **Eigene URL** auswählen.
-4. Folgende vollständige Zeile in das Eingabefeld einfügen:
+1. Open **Adapters** in ioBroker.
+2. Click **Install adapter from custom URL**.
+3. Select the **Custom** or **Custom URL** tab.
+4. Paste the following complete line into the input field:
 
    ```text
    https://git.hintergasse.de/hubobel/ioBroker.openai-toolbox/archive/main.tar.gz openai-toolbox
    ```
 
-5. Auf **Installieren** klicken.
-6. Nach Abschluss die Adapterseite neu laden.
-7. Beim Adapter **OpenAI Toolbox** über die Plus-Schaltfläche eine Instanz anlegen.
-8. Den OpenAI-API-Schlüssel eintragen und mindestens ein Modell konfigurieren.
+5. Click **Install**.
+6. Reload the adapter page after installation finishes.
+7. Create an **OpenAI Toolbox** instance with the plus button.
+8. Enter the OpenAI API key and configure at least one model.
 
-### Warum steht der Adaptername hinter der URL?
+### Why is the adapter name appended to the URL?
 
-Forgejo stellt den Quellcode als Archiv mit dem Dateinamen `main.tar.gz` bereit. Daraus kann ioBroker den Adapternamen nicht automatisch erkennen. Deshalb muss hinter der URL – getrennt durch ein Leerzeichen – der Name `openai-toolbox` angegeben werden.
+Forgejo provides the source archive with the filename `main.tar.gz`. ioBroker cannot infer the adapter name from that filename, so `openai-toolbox` must be appended to the URL, separated by a space.
 
-### Aktualisierung
+### Updating
 
-Für eine Aktualisierung wird derselbe Installationsvorgang erneut ausgeführt. Vorhandene Instanzkonfigurationen bleiben dabei erhalten.
+Repeat the same installation procedure to update the adapter. Existing instance configuration is retained.
 
-## Ersteinrichtung mit `gpt-5-nano`
+## Initial setup with `gpt-5-nano`
 
-### 1. OpenAI-API-Schlüssel vorbereiten
+### 1. Prepare an OpenAI API key
 
-Ein API-Schlüssel kann in der [OpenAI-Plattform](https://platform.openai.com/api-keys) erstellt und verwaltet werden.
+API keys can be created and managed on the [OpenAI platform](https://platform.openai.com/api-keys).
 
-> **Sicherheit:** Den API-Schlüssel niemals in die README, in Quellcode, Screenshots oder öffentliche Protokolle kopieren. Bei Verdacht auf eine Veröffentlichung muss der Schlüssel sofort ersetzt werden.
+> **Security:** Never copy the API key into documentation, source code, screenshots, or public logs. Rotate the key immediately if it may have been exposed.
 
-### 2. Adapterinstanz anlegen
+### 2. Create an adapter instance
 
-1. In ioBroker den Bereich **Adapter** öffnen.
-2. Beim Adapter **OpenAI Toolbox** auf die Plus-Schaltfläche klicken.
-3. Die neu angelegte Instanz `openai-toolbox.0` öffnen.
+1. Open **Adapters** in ioBroker.
+2. Click the plus button for **OpenAI Toolbox**.
+3. Open the new `openai-toolbox.0` instance.
 
-### 3. OpenAI-Verbindung konfigurieren
+### 3. Configure the OpenAI connection
 
-Im Reiter **OpenAI** folgende Werte eintragen:
+Enter the following values on the **OpenAI** tab:
 
-| Einstellung                   | Wert                              |
-| ----------------------------- | --------------------------------- |
-| OpenAI API key                | Persönlicher OpenAI-API-Schlüssel |
-| API base URL                  | `https://api.openai.com/v1`       |
-| Request timeout (ms)          | `60000`                           |
-| Maximum image size (bytes)    | `10485760`                        |
-| Allowed local image directory | Für den ersten Test leer lassen   |
+| Setting                       | Value                          |
+| ----------------------------- | ------------------------------ |
+| OpenAI API key                | Personal OpenAI API key        |
+| API base URL                  | `https://api.openai.com/v1`    |
+| Request timeout (ms)          | `60000`                        |
+| Maximum image size (bytes)    | `10485760`                     |
+| Allowed local image directory | Leave empty for the first test |
 
-### 4. Modell `gpt-5-nano` anlegen
+### 4. Add the `gpt-5-nano` model
 
-Im Reiter **Models** eine neue Zeile hinzufügen:
+Add a row on the **Models** tab:
 
-| Einstellung | Wert         |
-| ----------- | ------------ |
-| Active      | aktiviert    |
-| Model ID    | `gpt-5-nano` |
+| Setting  | Value        |
+| -------- | ------------ |
+| Active   | enabled      |
+| Model ID | `gpt-5-nano` |
 
-### 5. Testwerkzeug anlegen
+### 5. Add a test tool
 
-Im Reiter **Tools** eine neue Zeile mit folgenden Werten hinzufügen:
+Add a row with the following values on the **Tools** tab:
 
-| Einstellung       | Wert                                       |
-| ----------------- | ------------------------------------------ |
-| Name              | `nano-test`                                |
-| Model ID          | `gpt-5-nano`                               |
-| Instructions      | `Antworte kurz, sachlich und auf Deutsch.` |
-| Reasoning effort  | `Minimal`                                  |
-| Temperature       | leer lassen                                |
-| Max output tokens | `300`                                      |
-| History pairs     | `0`                                        |
-| Vision            | deaktiviert                                |
-| Retries           | `2`                                        |
-| Retry delay       | `5`                                        |
+| Setting           | Value                           |
+| ----------------- | ------------------------------- |
+| Name              | `nano-test`                     |
+| Model ID          | `gpt-5-nano`                    |
+| Instructions      | `Answer briefly and factually.` |
+| Reasoning effort  | `Minimal`                       |
+| Temperature       | leave empty                     |
+| Max output tokens | `300`                           |
+| History pairs     | `0`                             |
+| Vision            | disabled                        |
+| Retries           | `2`                             |
+| Retry delay       | `5`                             |
 
-`Temperature` sollte bei `gpt-5-nano` leer bleiben, da dieser Parameter abhängig vom Modell nicht unterstützt werden kann.
+Leave `Temperature` empty for `gpt-5-nano`, because support for this parameter depends on the model.
 
 ### Tool examples
 
@@ -190,57 +190,69 @@ Each tool can define an optional `Example request` and matching `Example respons
 
 An incomplete example pair is ignored. Example messages are not written to the tool's conversation history.
 
-### 6. Konfiguration speichern
+### 6. Save the configuration
 
-1. Die Einstellungen speichern.
-2. Falls erforderlich, die Adapterinstanz neu starten.
-3. Die Instanz sollte anschließend grün werden.
+1. Save the settings.
+2. Restart the adapter instance if necessary.
+3. The instance should then turn green.
 
-Im ioBroker-Protokoll sollte eine ähnliche Meldung erscheinen:
+The ioBroker log should contain a message similar to this:
 
 ```text
 OpenAI Toolbox ready with 1 model(s) and 1 tool(s)
 ```
 
-### 7. Erste Anfrage testen
+### 7. Test the first request
 
-1. In ioBroker den Bereich **Objekte** öffnen.
-2. Zu folgendem Datenpunkt navigieren:
+1. Open **Objects** in ioBroker.
+2. Navigate to this state:
 
    ```text
    openai-toolbox.0.Tools.nano-test.text_request
    ```
 
-3. Als Wert beispielsweise eingeben:
+3. Enter a value such as:
 
    ```text
-   Erkläre ioBroker in genau einem kurzen deutschen Satz.
+   Explain ioBroker in one short sentence.
    ```
 
-4. Die Antwort erscheint unter:
+4. The response appears at:
 
    ```text
    openai-toolbox.0.Tools.nano-test.text_response
    ```
 
-5. Der Status der Anfrage steht unter:
+5. The request status appears at:
 
    ```text
    openai-toolbox.0.Tools.nano-test.request.state
    ```
 
-Bei erfolgreicher Verarbeitung enthält dieser Datenpunkt den Wert:
+After successful processing, this state contains:
 
 ```text
 success
 ```
 
-Mögliche Fehlermeldungen können unter folgendem Datenpunkt eingesehen werden:
+Errors can be inspected at:
 
 ```text
 openai-toolbox.0.Tools.nano-test.response.error
 ```
 
+## Changelog
+
+### 0.1.1
+
+- Added example conversations for tools and automated versioning.
+
+### 0.1.0
+
+- Initial development release.
+
 ## License
 
 MIT
+
+Copyright (c) 2026 Hubobel
