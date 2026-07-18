@@ -49,6 +49,5 @@ jobs:
     steps:
       - uses: ioBroker/testing-action-deploy@v1
         with:
-          node-version: "22.x"
-          npm-token: ${{ secrets.NPM_TOKEN }}
+          node-version: "24.x"
           github-token: ${{ secrets.GITHUB_TOKEN }}
