@@ -88,8 +88,8 @@
         "zh-cn": "初始开发版本"
       }
     },
-    "icon": "openai-toolbox.svg",
-    "extIcon": "https://raw.githubusercontent.com/Hubobel/ioBroker.openai-toolbox/main/admin/openai-toolbox.svg"
+    "icon": "openai-toolbox.png",
+    "extIcon": "https://raw.githubusercontent.com/Hubobel/ioBroker.openai-toolbox/main/admin/openai-toolbox.png"
   },
   "native": {
     "apiKey": "",
